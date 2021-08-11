@@ -51,7 +51,7 @@ export async function resolveFileAndLine(
     return {fileName, line: parseInt(line)}
   } catch (error) {
     core.warning(
-      `⚠️ Failed to resolve file and line for ${file} and ${className}`
+      `Failed to resolve file and line for ${file} and ${className}`
     )
     return {fileName, line: 1}
   }
@@ -158,7 +158,8 @@ async function parseSuite(
       if (testcase.skipped || testcase._attributes.status === 'disabled')
         skipped++
       if (testcase.failure || testcase.error) {
-        const stackTrace = (
+
+        let stackTrace = (
           (testcase.failure && testcase.failure._cdata) ||
           (testcase.failure && testcase.failure._text) ||
           (testcase.error && testcase.error._cdata) ||
@@ -167,6 +168,10 @@ async function parseSuite(
         )
           .toString()
           .trim()
+
+        if (testcase['system-out']) {
+          stackTrace = testcase['system-out']._cdata + stackTrace
+        }
 
         const message = (
           (testcase.failure &&

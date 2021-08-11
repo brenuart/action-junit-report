@@ -8,6 +8,8 @@ Caused by: java.lang.IllegalArgumentException: Amount must have max 2 non-zero d
 	at action.surefire.report.calc.CalcUtilsTest.access$scale(CalcUtilsTest.kt:9)
 	at action.surefire.report.calc.CalcUtilsTest.test error handling(CalcUtilsTest.kt:27)
 ]]></failure>
+    <system-out><![CDATA[Before the failing test
+]]></system-out>
   </testcase>
   <testcase name="test scale" classname="action.surefire.report.calc.CalcUtilsTest" time="0.001">
     <failure message="&#10;Expected: &lt;100.10&gt;&#10;     but: was &lt;100.11&gt;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: 

@@ -4,7 +4,7 @@ import {parseTestReports} from './testParser'
 
 export async function run(): Promise<void> {
   try {
-    core.startGroup(`📘 Reading input values`)
+    core.startGroup(`Reading input values`)
 
     const summary = core.getInput('summary')
     const reportPaths = core.getInput('report_paths')
@@ -15,7 +15,7 @@ export async function run(): Promise<void> {
       process.env.GITHUB_TOKEN
 
     if (!token) {
-      core.setFailed('❌ A token is required to execute this action')
+      core.setFailed('A token is required to execute this action')
       return
     }
 
@@ -25,7 +25,7 @@ export async function run(): Promise<void> {
     const requireTests = core.getInput('require_tests') === 'true'
 
     core.endGroup()
-    core.startGroup(`📦 Process test results`)
+    core.startGroup(`Process test results`)
 
     const testResult = await parseTestReports(reportPaths, suiteRegex)
     const foundResults = testResult.count > 0 || testResult.skipped > 0
@@ -36,7 +36,7 @@ export async function run(): Promise<void> {
 
     if (!foundResults) {
       if (requireTests) {
-        core.setFailed('❌ No test results found')
+        core.setFailed('No test results found')
       }
       return
     }
@@ -70,7 +70,7 @@ export async function run(): Promise<void> {
     core.debug(JSON.stringify(createCheckRequest, null, 2))
     core.endGroup()
 
-    core.startGroup(`🚀 Publish results`)
+    core.startGroup(`Publish results`)
 
     try {
       const octokit = github.getOctokit(token)
@@ -78,15 +78,15 @@ export async function run(): Promise<void> {
 
       if (failOnFailure && conclusion === 'failure') {
         core.setFailed(
-          `❌ Tests reported ${testResult.annotations.length} failures`
+          `Tests reported ${testResult.annotations.length} failures`
         )
       }
     } catch (error) {
       core.error(
-        `❌ Failed to create checks using the provided token. (${error})`
+        `Failed to create checks using the provided token. (${error})`
       )
       core.warning(
-        `⚠️ This usually indicates insufficient permissions. More details: https://github.com/mikepenz/action-junit-report/issues/23`
+        `This usually indicates insufficient permissions. More details: https://github.com/mikepenz/action-junit-report/issues/23`
       )
     }
 
